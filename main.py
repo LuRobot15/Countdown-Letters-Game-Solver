@@ -106,4 +106,5 @@ def command_solve_countdown(search_dictionary: dict) -> None:
 		print("Countdown problem solved successfully")
 
 
-		
+if __name__ == "__main__":
+	main()
