@@ -36,7 +36,7 @@ def create_dict(csv_file_path: str, file_path: str) -> dict | None:
 
 		csv_reader = csv.reader(file)
 		for row in csv_reader:
-			word, count, POS, definition = row[0], row[1], row[2], row[3]
+			word, definition = row[0], row[3]
    
 			if '\'' in word or ' ' in word or '-' in word:
 				continue
@@ -83,6 +83,7 @@ def add_to_dict(dictionary: dict, word: str, definition: str) -> None:
      "letter_counter" : letter_counter
      })
 
+
 def store_dict(dictionary: dict, file_path: str) -> None:
 	"""
 	Store the dictionary to a file in JSON format.
@@ -93,6 +94,7 @@ def store_dict(dictionary: dict, file_path: str) -> None:
 	"""
 	with open(file_path, 'w') as file:
 		json.dump(dictionary, file)
+  
   
 def load_dict(file_path: str) -> dict | None:
 	"""
