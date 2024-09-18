@@ -18,11 +18,11 @@ class TestCreateDict(unittest.TestCase):
     def tearDown(self):
         # Remove the temporary CSV file
         os.remove(self.test_csv_path)
-        if os.path.exists('dictionary.txt'):
-            os.remove('dictionary.txt')
+        if os.path.exists('test_dictionary.txt'):
+            os.remove('test_dictionary.txt')
 
     def test_create_dict(self):
-        result = create_dict(self.test_csv_path)
+        result = create_dict(self.test_csv_path, 'test_dictionary.txt')
         self.assertIn('a', result)
         self.assertIn('b', result)
         self.assertIn('c', result)
@@ -51,9 +51,9 @@ class TestCreateDict(unittest.TestCase):
 
     def test_store_dict(self):
         dictionary = {'a': {'b': [{'word': 'ab', 'definition': 'test', 'count': 2, 'letter_counter': Counter('ab')}]}}
-        store_dict(dictionary)
-        self.assertTrue(os.path.exists('dictionary.txt'))
-        with open('dictionary.txt', 'r') as f:
+        store_dict(dictionary, 'test_dictionary.txt')
+        self.assertTrue(os.path.exists('test_dictionary.txt'))
+        with open('test_dictionary.txt', 'r') as f:
             stored_dict = json.load(f)
         self.assertEqual(stored_dict, dictionary)
 
