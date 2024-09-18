@@ -94,7 +94,7 @@ def store_dict(dictionary: dict, file_path: str) -> None:
 	with open(file_path, 'w') as file:
 		json.dump(dictionary, file)
   
-def load_dict(file_path: str) -> dict:
+def load_dict(file_path: str) -> dict | None:
 	"""
 	Load the dictionary from a file in JSON format.
 
@@ -104,10 +104,14 @@ def load_dict(file_path: str) -> dict:
 	Returns:
 		dictionary (dict): The dictionary loaded from the file.
 	"""
-	with open(file_path, 'r') as file:
-		dictionary = json.load(file)
+	try:
+		with open(file_path, 'r') as file:
+			dictionary = json.load(file)
 
-	return dictionary
+		return dictionary
+	except Exception as e:
+		print(f"Error: {e}")
+		return None
 
 
 
