@@ -1,4 +1,5 @@
 from createDict import create_dict, load_dict
+from typing import Union
 
 def main(args: list):
 	"""
@@ -25,18 +26,17 @@ def main(args: list):
 
 		choice = input("Enter your choice: ")
 
-		match choice:
-			case "1":
-				search_dictionary = command_create_dict()
-			case "2":
-				search_dictionary = command_load_dict()
-			case "-1":
-				break
-			case _:
-				print("Invalid choice")
+		if choice == "1":
+			search_dictionary = command_create_dict()
+		elif choice == "2":
+			search_dictionary = command_load_dict()
+		elif choice == "-1":
+			break
+		else:
+			print("Invalid choice")
 
 
-def command_create_dict() -> dict | None:
+def command_create_dict() -> Union[dict, None]:
 	"""
 	Create a dictionary and store it in a file from files given by the user.
 
@@ -58,7 +58,7 @@ def command_create_dict() -> dict | None:
 	return search_dictionary
 
 
-def command_load_dict() -> dict | None:
+def command_load_dict() -> Union[dict, None]:
 	"""
 	Load a dictionary from a json file.
 

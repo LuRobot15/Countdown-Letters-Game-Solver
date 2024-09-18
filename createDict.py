@@ -2,6 +2,7 @@ import csv
 import string
 from collections import Counter
 import json
+from typing import Union
 
 """
 The structure of the dictionary is as follows:
@@ -20,7 +21,7 @@ The structure of the dictionary is as follows:
 }
 """
 
-def create_dict(csv_file_path: str, file_path: str) -> dict | None:
+def create_dict(csv_file_path: str, file_path: str) -> Union[dict, None]:
 	"""
 	Create a dict object that stores all valid answers to a possible countdown letters game from a CSV file.
     
@@ -96,7 +97,7 @@ def store_dict(dictionary: dict, file_path: str) -> None:
 		json.dump(dictionary, file)
   
   
-def load_dict(file_path: str) -> dict | None:
+def load_dict(file_path: str) -> Union[dict, None]:
 	"""
 	Load the dictionary from a file in JSON format.
 
