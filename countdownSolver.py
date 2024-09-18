@@ -28,9 +28,7 @@ def solve_countdown(letters: str, search_dict: dict) -> List[dict]:
 			second_letters_seen.append(letters[j])
    
 			for record in search_dict[letters[i]][letters[j]]:
-				word = record["word"]
-				definition = record["definition"]
-				word_counts = record["letter_counter"]
+				word, definition, word_counts = record["word"], record["definition"], record["letter_counter"]
 				if all(letter_counts[letter] >= count for letter, count in word_counts.items()):
 					valid_words.append({"word": word, "definition": definition, "length": len(word)})
 

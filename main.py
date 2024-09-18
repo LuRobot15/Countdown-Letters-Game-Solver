@@ -1,4 +1,5 @@
 from createDict import create_dict, load_dict
+from countdownSolver import solve_countdown, output_words
 from typing import Union
 
 def main(args: list):
@@ -22,7 +23,8 @@ def main(args: list):
 		print("What would you like to do?")
 		print("1. create dict")
 		print("2. Load dict")
-		print("3. Exit")
+		print("3. Solve Countdown")
+		print("4. Exit")
 
 		choice = input("Enter your choice: ")
 
@@ -30,6 +32,8 @@ def main(args: list):
 			search_dictionary = command_create_dict()
 		elif choice == "2":
 			search_dictionary = command_load_dict()
+		elif choice == "3":
+			command_solve_countdown(search_dictionary)
 		elif choice == "-1":
 			break
 		else:
@@ -79,6 +83,27 @@ def command_load_dict() -> Union[dict, None]:
 	return search_dictionary
 
 
+def command_solve_countdown(search_dictionary: dict) -> None:
+	"""
+	Solve the countdown problem for a given set of letters.
+
+	Args:
+		search_dictionary (dict): The dictionary to use to find words.
+	"""
+	letters = input("Enter the letters to solve the countdown problem: ")
+
+	if len(letters) != 9:
+		print("Error: Invalid number of letters")
+		return
+
+	valid_words = solve_countdown(letters.lower(), search_dictionary)
+
+	output_words(valid_words)
+
+	if valid_words is None:
+		print("Error: Failed to solve countdown problem")
+	else:
+		print("Countdown problem solved successfully")
 
 
 		
