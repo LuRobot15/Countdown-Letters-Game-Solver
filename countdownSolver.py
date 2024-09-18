@@ -1,6 +1,7 @@
 from collections import Counter
+from typing import List
 
-def solve_countdown(letters: str, search_dict: dict) -> list[dict]:
+def solve_countdown(letters: str, search_dict: dict) -> List[dict]:
 	"""
 	Solve the Countdown numbers game using a dictionary and the provided letters.
 
@@ -13,13 +14,20 @@ def solve_countdown(letters: str, search_dict: dict) -> list[dict]:
 	"""
 	letter_counts = Counter(letters)
 	valid_words = []
+	letters_seen =[]
 
 	for i in range(len(letters)):
+		if letters[i] in letters_seen:
+			continue
+		letters_seen.append(letters[i])
+  
+		second_letters_seen = []
 		for j in range(len(letters)):
-			if i == j:
+			if i == j or letters[j] in second_letters_seen:
 				continue
-			
-			for record in search_dict[i][j]:
+			second_letters_seen.append(letters[j])
+   
+			for record in search_dict[letters[i]][letters[j]]:
 				word = record["word"]
 				definition = record["definition"]
 				word_counts = record["letter_counter"]
@@ -29,7 +37,7 @@ def solve_countdown(letters: str, search_dict: dict) -> list[dict]:
 	return valid_words
 
 
-def output_words(words: list[dict]) -> None:
+def output_words(words: List[dict]) -> None:
 	"""
 	Output the words to the console.
 
