@@ -24,7 +24,8 @@ class TestCreateDict(unittest.TestCase):
             f.write('cat,3,noun,a feline animal\n')
             f.write("don't,5,verb,contraction of do not\n")  # This should be skipped
             f.write('a,1,noun,a letter\n')  #word too short should be skipped
-
+            f.write('#NAME?,#NAME?,"""pl. ""","""of Baptistry"""\n')  #weird part of dataset should be ignored
+            
     def tearDown(self):
         """
         Clean up the test environment after each test method.

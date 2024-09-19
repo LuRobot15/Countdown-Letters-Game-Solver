@@ -40,7 +40,7 @@ def create_dict(csv_file_path: str, file_path: str) -> Union[dict, None]:
 				# skip header
 				if row[1] == 'Count':
 					continue
-				if int(row[1]) < 2:
+				if not row[1][0].isdigit() or int(row[1]) < 2:
 					continue
 				word, definition = row[0].lower(), row[3]
    
