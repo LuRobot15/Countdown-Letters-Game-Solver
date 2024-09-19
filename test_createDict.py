@@ -25,6 +25,7 @@ class TestCreateDict(unittest.TestCase):
             f.write("don't,5,verb,contraction of do not\n")  # This should be skipped
             f.write('a,1,noun,a letter\n')  #word too short should be skipped
             f.write('#NAME?,#NAME?,"""pl. ""","""of Baptistry"""\n')  #weird part of dataset should be ignored
+            f.write('123,3,noun,a number\n')  #word with number should be skipped
             
     def tearDown(self):
         """

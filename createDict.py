@@ -43,10 +43,12 @@ def create_dict(csv_file_path: str, file_path: str) -> Union[dict, None]:
 				if not row[1][0].isdigit() or int(row[1]) < 2:
 					continue
 				word, definition = row[0].lower(), row[3]
-   
-				if '\'' in word or ' ' in word or '-' in word:
-					continue
-				else:
+
+				valid_word = True
+				for char in word:
+					if not char.isalpha():
+						valid_word = False
+				if valid_word:	
 					add_to_dict(dictionary, word, definition)
      
 	except Exception as e:
