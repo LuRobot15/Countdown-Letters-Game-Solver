@@ -17,7 +17,7 @@ class TestCreateDict(unittest.TestCase):
         # Create a temporary CSV file for testing
         self.test_csv_path = 'test_words.csv'
         with open(self.test_csv_path, 'w') as f:
-            f.write('word,count,type,definition\n') # header for csv file
+            f.write('Word,Count,Type,Definition\n') # header for csv file
             f.write('apple,5,noun,a fruit\n')
             f.write('apple,5,noun,a fruit\n')   # Duplicate word should be added
             f.write('banana,6,noun,a yellow fruit\n')
