@@ -37,6 +37,9 @@ def create_dict(csv_file_path: str, file_path: str) -> Union[dict, None]:
 
 			csv_reader = csv.reader(file)
 			for row in csv_reader:
+				# skip header
+				if row[1] == 'count':
+					continue
 				if int(row[1]) < 2:
 					continue
 				word, definition = row[0], row[3]
