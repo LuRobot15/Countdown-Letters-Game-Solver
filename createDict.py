@@ -37,6 +37,8 @@ def create_dict(csv_file_path: str, file_path: str) -> Union[dict, None]:
 
 			csv_reader = csv.reader(file)
 			for row in csv_reader:
+				if int(row[1]) < 2:
+					continue
 				word, definition = row[0], row[3]
    
 				if '\'' in word or ' ' in word or '-' in word:
@@ -94,8 +96,12 @@ def store_dict(dictionary: dict, file_path: str) -> None:
 		dictionary (dict): The dictionary to store.
 		file_path (str): The path to the file to store the dictionary.
 	"""
-	with open(file_path, 'w') as file:
-		json.dump(dictionary, file)
+	try:	
+		with open(file_path, 'w') as file:
+			json.dump(dictionary, file)
+	except Exception as e:
+		print(f"Error: {e}")
+		return None
   
   
 def load_dict(file_path: str) -> Union[dict, None]:

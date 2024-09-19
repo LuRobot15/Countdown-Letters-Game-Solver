@@ -22,6 +22,7 @@ class TestCreateDict(unittest.TestCase):
             f.write('banana,6,noun,a yellow fruit\n')
             f.write('cat,3,noun,a feline animal\n')
             f.write("don't,5,verb,contraction of do not\n")  # This should be skipped
+            f.write('a,1,noun,a letter\n')  #word too short should be skipped
 
     def tearDown(self):
         """
