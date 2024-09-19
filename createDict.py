@@ -42,7 +42,7 @@ def create_dict(csv_file_path: str, file_path: str) -> Union[dict, None]:
 					continue
 				if int(row[1]) < 2:
 					continue
-				word, definition = row[0], row[3]
+				word, definition = row[0].lower(), row[3]
    
 				if '\'' in word or ' ' in word or '-' in word:
 					continue

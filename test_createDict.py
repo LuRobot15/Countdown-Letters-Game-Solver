@@ -18,9 +18,9 @@ class TestCreateDict(unittest.TestCase):
         self.test_csv_path = 'test_words.csv'
         with open(self.test_csv_path, 'w') as f:
             f.write('Word,Count,Type,Definition\n') # header for csv file
-            f.write('apple,5,noun,a fruit\n')
+            f.write('Apple,5,noun,a fruit\n')
             f.write('apple,5,noun,a fruit\n')   # Duplicate word should be added
-            f.write('banana,6,noun,a yellow fruit\n')
+            f.write('Banana,6,noun,a yellow fruit\n')
             f.write('cat,3,noun,a feline animal\n')
             f.write("don't,5,verb,contraction of do not\n")  # This should be skipped
             f.write('a,1,noun,a letter\n')  #word too short should be skipped
