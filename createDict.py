@@ -35,14 +35,15 @@ def create_dict(csv_file_path: str, file_path: str) -> Union[dict, None]:
 		with open(csv_file_path, 'r') as file:
 			dictionary = initialise_dict()
 
-		csv_reader = csv.reader(file)
-		for row in csv_reader:
-			word, definition = row[0], row[3]
+			csv_reader = csv.reader(file)
+			for row in csv_reader:
+				word, definition = row[0], row[3]
    
-			if '\'' in word or ' ' in word or '-' in word:
-				continue
-			else:
-				add_to_dict(dictionary, word, definition)
+				if '\'' in word or ' ' in word or '-' in word:
+					continue
+				else:
+					add_to_dict(dictionary, word, definition)
+     
 	except Exception as e:
 		print(f"Error: {e}")
 		return None

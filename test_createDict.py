@@ -18,6 +18,7 @@ class TestCreateDict(unittest.TestCase):
         self.test_csv_path = 'test_words.csv'
         with open(self.test_csv_path, 'w') as f:
             f.write('apple,5,noun,a fruit\n')
+            f.write('apple,5,noun,a fruit\n')   # Duplicate word should be added
             f.write('banana,6,noun,a yellow fruit\n')
             f.write('cat,3,noun,a feline animal\n')
             f.write("don't,5,verb,contraction of do not\n")  # This should be skipped
@@ -45,7 +46,7 @@ class TestCreateDict(unittest.TestCase):
         self.assertIn('a', result)
         self.assertIn('b', result)
         self.assertIn('c', result)
-        self.assertEqual(len(result['a']['p']), 1)
+        self.assertEqual(len(result['a']['p']), 2)
         self.assertEqual(len(result['b']['a']), 1)
         self.assertEqual(len(result['c']['a']), 1)
         self.assertEqual(len(result['d']['o']), 0)
