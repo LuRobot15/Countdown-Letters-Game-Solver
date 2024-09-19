@@ -1,6 +1,8 @@
 from createDict import create_dict, load_dict
 from countdownSolver import solve_countdown, output_words
 from typing import Union
+import sys
+
 
 def main(args: list):
 	"""
@@ -12,7 +14,7 @@ def main(args: list):
 	Returns:
 		None
 	"""
-	if len(args) != 0:
+	if len(args) != 1:
 		print("Usage: python main.py")
 		return
 
@@ -24,7 +26,7 @@ def main(args: list):
 		print("1. create dict")
 		print("2. Load dict")
 		print("3. Solve Countdown")
-		print("4. Exit")
+		print("-1. Exit")
 
 		choice = input("Enter your choice: ")
 
@@ -107,4 +109,4 @@ def command_solve_countdown(search_dictionary: dict) -> None:
 
 
 if __name__ == "__main__":
-	main()
+	main(sys.argv)
