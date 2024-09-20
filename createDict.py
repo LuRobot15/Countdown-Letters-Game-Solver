@@ -44,6 +44,7 @@ def create_dict(csv_file_path: str, file_path: str) -> Union[dict, None]:
 					continue
 				word, definition = row[0].lower(), row[3]
 
+				#ignoring words in the dataset that could not be valid answers
 				valid_word = True
 				for char in word:
 					if not char.isalpha():

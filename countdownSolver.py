@@ -3,7 +3,7 @@ from typing import List
 
 def solve_countdown(letters: str, search_dict: dict) -> List[dict]:
 	"""
-	Solve the Countdown numbers game using a dictionary and the provided letters.
+	Solve the Countdown numbers game using a dictionary and the provided letters. Ensuring no duplicate words are used.
 
 	Args:
 		letters (str): The letters provided for the game.
