@@ -14,4 +14,6 @@
   <li>Enter the 9 letters you want to use</li>
 </ol>
 
+<hr>
+
 <p><b>Note:</b> The csv file used doesn't contain plurals</p>
