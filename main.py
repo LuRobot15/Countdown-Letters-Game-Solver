@@ -97,6 +97,11 @@ def command_solve_countdown(search_dictionary: dict) -> None:
 	if len(letters) != 9:
 		print("Error: Invalid number of letters")
 		return
+	else:
+		for letter in letters:
+			if not letter.isalpha():
+				print("Error: Invalid letters")
+				return
 
 	valid_words = solve_countdown(letters.lower(), search_dictionary)
 
