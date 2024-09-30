@@ -26,7 +26,7 @@ class TestMain(unittest.TestCase):
 		"""
 		mock_create_dict.return_value = {'test': 'dictionary'}
 		with patch('sys.stdout', new=StringIO()) as fake_out:
-			main([])
+			main(["main.py"])
 		self.assertIn("What would you like to do?", fake_out.getvalue())
 		mock_create_dict.assert_called_once()
 
@@ -51,7 +51,7 @@ class TestMain(unittest.TestCase):
 		"""
 		mock_load_dict.return_value = {'test': 'dictionary'}
 		with patch('sys.stdout', new=StringIO()) as fake_out:
-			main([])
+			main(["main.py"])
 		self.assertIn("What would you like to do?", fake_out.getvalue())
 		mock_load_dict.assert_called_once()
 
@@ -79,7 +79,7 @@ class TestMain(unittest.TestCase):
 		mock_command_load_dict.return_value = mock_dict
 		mock_command_solve_countdown.return_value = None
 		with patch('sys.stdout', new=StringIO()) as fake_out:
-			main([])
+			main(["main.py"])
 		self.assertIn("What would you like to do?", fake_out.getvalue())
 		mock_command_solve_countdown.assert_called_once_with(mock_dict)
 		
@@ -99,7 +99,7 @@ class TestMain(unittest.TestCase):
 			The output contains the prompt "Invalid choice".
 		"""
 		with patch('sys.stdout', new=StringIO()) as fake_out:
-			main([])
+			main(["main.py"])
 		self.assertIn("Invalid choice", fake_out.getvalue())
 
 
