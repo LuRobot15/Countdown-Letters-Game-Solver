@@ -1,7 +1,6 @@
 from createDict import create_dict, load_dict
 from countdownSolver import solve_countdown, output_words
 from typing import Union
-import sys
 
 
 def main(args: list):
@@ -111,7 +110,3 @@ def command_solve_countdown(search_dictionary: dict) -> None:
 		print("Error: Failed to solve countdown problem")
 	else:
 		print("Countdown problem solved successfully")
-
-
-if __name__ == "__main__":
-	main(sys.argv)
