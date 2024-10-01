@@ -29,7 +29,7 @@ def main(args: list):
 
 		choice = input("Enter your choice: ")
 
-		if choice == "4":
+		if choice == "1":
 			search_dictionary = command_create_dict()
 		elif choice == "2":
 			search_dictionary = command_load_dict()
