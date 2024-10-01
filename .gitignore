@@ -1,0 +1,5 @@
+#ignore the dict.json file
+dict.json
+
+#ignore the test pycache
+__pycache__
