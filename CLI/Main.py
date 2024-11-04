@@ -1,4 +1,4 @@
-from .CreateDict import create_dict, load_dict
+from LettersGame.CreateDict import create_dict, load_dict
 from LettersGame.CountdownSolver import solve_countdown, output_words
 from typing import Union
 
