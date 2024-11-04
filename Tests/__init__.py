@@ -1,7 +1,7 @@
 import unittest
-from .CLI.test_createDict import TestCreateDict
-from .CLI.test_main import TestMain
-from .test_countdownSolver import TestCountdownSolver
+from .test_CreateDict import TestCreateDict
+from .test_CountdownSolver import TestCountdownSolver
+from .CLI.test_Main import TestMain
 
 def suite():
     loader = unittest.TestLoader()
