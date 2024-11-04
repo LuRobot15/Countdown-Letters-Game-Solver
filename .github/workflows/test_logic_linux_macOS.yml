@@ -68,4 +68,4 @@ jobs:
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
     - name: Test the files
       run: |
-        python3 -m unittest test_all.py
+        python3 -m unittest LettersGame/test_all.py
