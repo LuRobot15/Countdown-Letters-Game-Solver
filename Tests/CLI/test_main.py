@@ -2,12 +2,12 @@ import unittest
 from unittest.mock import patch, MagicMock
 from io import StringIO
 import sys
-from LettersGame.Main import main, command_create_dict, command_load_dict, command_solve_countdown
+from CLI.Main import main, command_create_dict, command_load_dict, command_solve_countdown
 
 class TestMain(unittest.TestCase):
 
 	@patch('builtins.input', side_effect=['1', '-1'])
-	@patch('LettersGame.Main.command_create_dict')
+	@patch('CLI.Main.command_create_dict')
 	def test_main_create_dict(self, mock_create_dict, mock_input):
 		"""
 		Test the main function when the user chooses to create a dictionary.
@@ -32,7 +32,7 @@ class TestMain(unittest.TestCase):
 
 
 	@patch('builtins.input', side_effect=['2', '-1'])
-	@patch('LettersGame.Main.command_load_dict')
+	@patch('CLI.Main.command_load_dict')
 	def test_main_load_dict(self, mock_load_dict, mock_input):
 		"""
 		Test the main function when the user chooses to load a dictionary.
@@ -57,8 +57,8 @@ class TestMain(unittest.TestCase):
 
 
 	@patch('builtins.input', side_effect=['2', '3', '-1'])
-	@patch('LettersGame.Main.command_solve_countdown')
-	@patch('LettersGame.Main.command_load_dict')
+	@patch('CLI.Main.command_solve_countdown')
+	@patch('CLI.Main.command_load_dict')
 	def test_main_solve_countdown(self, mock_command_load_dict, mock_command_solve_countdown, mock_input):
 		"""
 		Test the main function when the user chooses to solve the countdown problem.
@@ -104,7 +104,7 @@ class TestMain(unittest.TestCase):
 
 
 	@patch('builtins.input', side_effect=['/path/to/csv', '/path/to/json'])
-	@patch('LettersGame.Main.create_dict')
+	@patch('CLI.Main.create_dict')
 	def test_command_create_dict_success(self, mock_create_dict, mock_input):
 		"""
 		Test the command_create_dict function when the dictionary is created successfully.
@@ -129,7 +129,7 @@ class TestMain(unittest.TestCase):
 
 
 	@patch('builtins.input', side_effect=['/path/to/csv', '/path/to/json'])
-	@patch('LettersGame.Main.create_dict')
+	@patch('CLI.Main.create_dict')
 	def test_command_create_dict_failure(self, mock_create_dict, mock_input):
 		mock_create_dict.return_value = None
 		with patch('sys.stdout', new=StringIO()) as fake_out:
@@ -139,7 +139,7 @@ class TestMain(unittest.TestCase):
 
 
 	@patch('builtins.input', return_value='/path/to/json')
-	@patch('LettersGame.Main.load_dict')
+	@patch('CLI.Main.load_dict')
 	def test_command_load_dict_success(self, mock_load_dict, mock_input):
 		"""
 		Test the command_load_dict function when the dictionary is loaded successfully.
@@ -164,7 +164,7 @@ class TestMain(unittest.TestCase):
 
 
 	@patch('builtins.input', return_value='/path/to/json')
-	@patch('LettersGame.Main.load_dict')
+	@patch('CLI.Main.load_dict')
 	def test_command_load_dict_failure(self, mock_load_dict, mock_input):
 		"""
 		Test the command_load_dict function when the dictionary fails to load.
@@ -189,8 +189,8 @@ class TestMain(unittest.TestCase):
 
 
 	@patch('builtins.input', return_value='ABCDEFGHI')
-	@patch('LettersGame.Main.solve_countdown')
-	@patch('LettersGame.Main.output_words')
+	@patch('CLI.Main.solve_countdown')
+	@patch('CLI.Main.output_words')
 	def test_command_solve_countdown_success(self, mock_output_words, mock_solve_countdown, mock_input):
 		"""
 		Test the command_solve_countdown function when the countdown is solved successfully.

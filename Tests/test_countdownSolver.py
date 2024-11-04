@@ -2,7 +2,7 @@ import unittest
 from unittest.mock import patch
 from io import StringIO
 from LettersGame.CountdownSolver import solve_countdown, output_words
-from LettersGame.CreateDict import initialise_dict
+from CLI.CreateDict import initialise_dict
 
 class TestCountdownSolver(unittest.TestCase):
 	"""
