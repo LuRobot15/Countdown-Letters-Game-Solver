@@ -1,5 +1,5 @@
-from createDict import create_dict, load_dict
-from countdownSolver import solve_countdown, output_words
+from .CreateDict import create_dict, load_dict
+from .CountdownSolver import solve_countdown, output_words
 from typing import Union
 
 

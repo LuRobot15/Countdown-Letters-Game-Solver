@@ -1,8 +1,8 @@
 import unittest
 from unittest.mock import patch
 from io import StringIO
-from countdownSolver import solve_countdown, output_words
-from createDict import initialise_dict
+from LettersGame.CountdownSolver import solve_countdown, output_words
+from LettersGame.CreateDict import initialise_dict
 
 class TestCountdownSolver(unittest.TestCase):
 	"""
