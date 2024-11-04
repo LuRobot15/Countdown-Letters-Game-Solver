@@ -1,7 +1,7 @@
 import unittest
 import os
 import json
-from LettersGame.CreateDict import create_dict, initialise_dict, add_to_dict, store_dict
+from CLI.CreateDict import create_dict, initialise_dict, add_to_dict, store_dict
 from collections import Counter
 
 class TestCreateDict(unittest.TestCase):

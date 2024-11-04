@@ -1,6 +1,6 @@
 import unittest
-from .test_createDict import TestCreateDict
-from .test_main import TestMain
+from .CLI.test_createDict import TestCreateDict
+from .CLI.test_main import TestMain
 from .test_countdownSolver import TestCountdownSolver
 
 def suite():
