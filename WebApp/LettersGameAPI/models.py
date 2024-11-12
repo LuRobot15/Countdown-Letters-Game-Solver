@@ -2,6 +2,11 @@ from django.db import models
 
 from collections import Counter
 from datetime import date
+import random
+
+import LettersGame
+import LettersGame.CountdownSolver
+import LettersGame.CreateDict
 
 # Create your models here.
 class Letters(models.Model):
@@ -80,6 +85,30 @@ class Letters(models.Model):
 		answers = self.get_answers()
 		answers.sort(key=lambda answer: answer.get_word_length())
 		return answers[-1]
+
+	@staticmethod
+	def create_random_letters():
+		"""
+		Creates a random set of letters for a game. Ensuring that there are betwen 1 and 4 vowls and the rest are consonants.
+
+		Returns:
+			Letters: A Letters object with a random set of letters.
+		"""
+		vowls = 'aeiou'
+		consonants = 'bcdfghjklmnpqrstvwxyz'
+
+		num_vowls_to_use = random.randint(1, 4)
+		num_consonants_to_use = 9 - num_vowls_to_use
+  
+		vowls = ''.join(random.choices(vowls, k=num_vowls_to_use))
+		consonants = ''.join(random.choices(consonants, k=num_consonants_to_use))
+		letters = ''.join(random.sample(vowls + consonants, 9))
+
+		l = Letters.objects.create(letters=letters, date_used=date.today())
+		l.save()
+		Answers.create_answers_for_letters(l)
+		return l
+
     
 	@staticmethod
 	#Todo: handle the exception by creating a new Letters object
@@ -92,7 +121,10 @@ class Letters(models.Model):
 		Throws:
 			Letters.DoesNotExist: If there is no Letters object for today's date.
 		"""
-		return Letters.objects.get(date_used=date.today())
+		try:
+			l = Letters.objects.get(date_used=date.today())
+		except Letters.DoesNotExist:
+			return Letters.create_random_letters()
 
 
 class Words(models.Model):
@@ -194,3 +226,23 @@ class Answers(models.Model):
 		"""
 		self.times_guessed += 1
 		self.save()
+  
+	@staticmethod
+	def create_answers_for_letters(letters: Letters) -> None:
+		"""
+		Creates the answer objects for the provided Letters object.
+
+		Args:
+			letters (Letters): The Letters object to create answers for.
+		"""
+		try:
+			letters_dict = LettersGame.CreateDict.load_dict("dict.json")
+		except FileNotFoundError:
+			letters_dict = LettersGame.CreateDict.create_dict("OPTED-Dictionary.csv", "dict.json")
+   
+		answer_words = LettersGame.CountdownSolver.solve_countdown(letters.letters, letters_dict)
+		for word in answer_words:
+			w = Words.objects.get_or_create(word=word["word"], definition=word["definition"])[0]
+			a = Answers.objects.get_or_create(letters=letters, answer=w)
+			w.save()
+			a.save()
