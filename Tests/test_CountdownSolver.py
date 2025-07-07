@@ -203,6 +203,36 @@ class TestCheckAnswer(unittest.TestCase):
         self.assertIn("A red fruit", results_dict["definitions"])
         self.assertIn("A green fruit", results_dict["definitions"])
 
+    def test_not_from_letters(self):
+        """
+        Checks that a response of "incorrect" is returned when
+        the word contains letters not available
+        """
+        return_dict = check_answer("apply", "apples", self.sample_dict)
+
+        self.assertFalse(return_dict["correct"])
+        self.assertEqual(len(return_dict["definitions"]), 0)
+
+    def test_too_many_of_a_letter(self):
+        """
+        Checks that a response of "incorrect" is returned when
+        the word contains more of a letter than available
+        """
+        return_dict = check_answer("apple", "aples", self.sample_dict)
+
+        self.assertFalse(return_dict["correct"])
+        self.assertEqual(len(return_dict["definitions"]), 0)
+
+    def test_not_a_word(self):
+        """
+        Checks that a response of "incorrect" is returned when
+        the word submitted is not a valid word
+        """
+        return_dict = check_answer("appling", "appling", self.sample_dict)
+
+        self.assertFalse(return_dict["correct"])
+        self.assertEqual(len(return_dict["definitions"]), 0)
+
 
 if __name__ == '__main__':
     unittest.main()
