@@ -15,7 +15,7 @@ def solve_countdown(letters: str, search_dict: dict) -> List[dict]:
     """
     letter_counts = Counter(letters)
     valid_words = []
-    letters_seen =[]
+    letters_seen = []
 
     for i in range(len(letters)):
         if letters[i] in letters_seen:
@@ -47,3 +47,42 @@ def output_words(words: List[dict]) -> None:
 
     for record in words:
         print(f'{record["length"]} - {record["word"]} - {record["definition"]}')
+
+
+def check_answer(word: str, letters: str, search_dict: dict) -> dict:
+    """
+    checks if the word can be formed from a subset of 'letters'
+    checks if  the word is in the dict
+    returns the definition
+
+    Args:
+        word (str): The word submitted
+        letters (str): The available letters
+        search_dict (dict): the search dict to search for words
+
+    Returns:
+        dict: The return dict
+                {
+                    correct: (bool) if the word is correct
+                    definitions: (list[string]) the definitions of the word
+                }
+    """
+    return_dict = {
+        "correct": False,
+        "definitions": []
+    }
+
+    word_counter = Counter(word)
+    letters_counter = Counter(letters)
+
+    for key in word_counter:
+        if key not in letters_counter or word_counter[key] > letters_counter[key]:
+            return return_dict
+
+    same_opening_words = search_dict[word[0]][word[1]]
+    for word_dict in same_opening_words:
+        if word_dict["word"] == word:
+            return_dict["correct"] = True
+            return_dict["definitions"].append(word_dict["definition"])
+
+    return return_dict
