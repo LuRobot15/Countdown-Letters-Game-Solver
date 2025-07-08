@@ -23,15 +23,35 @@ def get_answers(
     letters: Annotated[
         str,
         Query(
-            description="The 9 letters you want to make words from. Can be upper or lower case",
+            description="\
+                The 9 letters you want to make words from. \
+                    Can be upper or lower case",
             min_length=9,
             max_length=9
         )
     ]
 ):
-    validate_input_is_char_str(letters)
-    usable_letters = letters.lower()
-    results = solve_countdown(usable_letters, dict)
+    """
+    Gets all the words in the dataset that can be formed
+    from a subset of the letters in "letters"
+
+    Args:
+        letters (str): "The 9 letters you want to make words from.
+                        Can be upper or lower case",
+                        min_length=9,
+                        max_length=9.
+
+    Returns:
+        dict:
+            {
+                "word": "the word",
+                "definition": "the definition",
+                "count": the length of the word,
+                "letter_counter": a counter of the letters in the word
+            }
+    """
+    letters = preprocess_str_inp(letters)
+    results = solve_countdown(letters, dict)
     results.sort(key=lambda x: x["length"], reverse=True)
     return results
 
@@ -41,7 +61,9 @@ def check_answer_endpoint(
     letters: Annotated[
         str,
         Query(
-            description="The 9 letters you want to make words from. Can be upper or lower case",
+            description="\
+                The 9 letters you want to make words from. \
+                    Can be upper or lower case",
             min_length=9,
             max_length=9
         )
@@ -55,6 +77,27 @@ def check_answer_endpoint(
         )
     ]
 ):
+    """
+    checks if the word if a valid answer to the letters game
+    with those letters
+
+    Args:
+        letters (str): The 9 letters you want to make words from.
+                        Can be upper or lower case.
+                        min_length=9,
+                        max_length=9.
+        word (str): The word to check,
+                    min_length=3,
+                    max_length=9.
+
+    Returns:
+        dict: {
+            "correct": (bool) True if the word exists and
+                                contains only letters in "letters",
+            "definitions": (List[str]) The definitions of the word,
+                                        empty list if word invalid
+        }
+    """
     letters = preprocess_str_inp(letters)
     word = preprocess_str_inp(word)
 
