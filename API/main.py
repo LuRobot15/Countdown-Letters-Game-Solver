@@ -24,6 +24,8 @@ def get_answers(letters: Annotated[str, Query(
     min_length=9,
     max_length=9
 )]):
+
+    validate_input_is_char_str(letters)
     usable_letters = letters.lower()
     results = solve_countdown(usable_letters, dict)
     results.sort(key=lambda x: x["length"], reverse=True)
