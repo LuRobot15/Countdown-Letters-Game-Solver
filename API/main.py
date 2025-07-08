@@ -47,7 +47,6 @@ def get_answers(
                 "word": "the word",
                 "definition": "the definition",
                 "count": the length of the word,
-                "letter_counter": a counter of the letters in the word
             }
     """
     letters = preprocess_str_inp(letters)

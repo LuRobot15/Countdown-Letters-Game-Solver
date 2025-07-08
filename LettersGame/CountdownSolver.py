@@ -4,14 +4,16 @@ from typing import List
 
 def solve_countdown(letters: str, search_dict: dict) -> List[dict]:
     """
-    Solve the Countdown numbers game using a dictionary and the provided letters. Ensuring no duplicate words are used.
+    Solve the Countdown numbers game using a dictionary and
+    the provided letters. Ensuring no duplicate words are used.
 
     Args:
         letters (str): The letters provided for the game.
         search_dict (dict): The dictionary to search for valid words.
 
     Returns:
-        list[dict]: A list of dictionaries containing the words, their definitions, and the word lengths.
+        list[dict]: A list of dictionaries containing the words,
+                    their definitions, and the word lengths.
     """
     letter_counts = Counter(letters)
     valid_words = []
@@ -29,11 +31,35 @@ def solve_countdown(letters: str, search_dict: dict) -> List[dict]:
             second_letters_seen.append(letters[j])
 
             for record in search_dict[letters[i]][letters[j]]:
-                word, definition, word_counts = record["word"], record["definition"], record["letter_counter"]
-                if all(letter_counts[letter] >= count for letter, count in word_counts.items()):
-                    valid_words.append({"word": word, "definition": definition, "length": len(word)})
+                if check_word(letter_counts, record["letter_counter"]):
+                    valid_words.append({
+                        "word": record["word"],
+                        "definition": record["definition"],
+                        "length": len(record["word"])
+                        })
 
     return valid_words
+
+
+def check_word(
+    letter_counts: dict,
+    word_counts: dict,
+) -> bool:
+    """
+    checks if a word can be formed from the letters given
+
+    Args:
+        letter_counts (dict): The letters available
+        word_counts (dict): The counter for the word
+
+    Returns:
+        bool: True if "word_counts" is a subset of "letter_counts"
+    """
+    if all(
+        letter_counts[letter] >= count for letter, count in word_counts.items()
+    ):
+        return True
+    return False
 
 
 def output_words(words: List[dict]) -> None:
@@ -41,12 +67,15 @@ def output_words(words: List[dict]) -> None:
     Output the words to the console.
 
     Args:
-        words (list[dict]): A list of dictionaries containing the words, their definitions, and the word lengths.
+        words (list[dict]): A list of dictionaries containing the words,
+                            their definitions, and the word lengths.
     """
     words.sort(key=lambda x: x["length"], reverse=True)
 
     for record in words:
-        print(f'{record["length"]} - {record["word"]} - {record["definition"]}')
+        print(
+            f'{record["length"]} - {record["word"]} - {record["definition"]}'
+            )
 
 
 def check_answer(word: str, letters: str, search_dict: dict) -> dict:
@@ -76,7 +105,10 @@ def check_answer(word: str, letters: str, search_dict: dict) -> dict:
     letters_counter = Counter(letters)
 
     for key in word_counter:
-        if key not in letters_counter or word_counter[key] > letters_counter[key]:
+        if (
+            key not in letters_counter or
+            word_counter[key] > letters_counter[key]
+        ):
             return return_dict
 
     same_opening_words = search_dict[word[0]][word[1]]

@@ -1,8 +1,14 @@
 import unittest
 import os
 import json
-from LettersGame.CreateDict import create_dict, initialise_dict, add_to_dict, store_dict
+from LettersGame.CreateDict import (
+    create_dict,
+    initialise_dict,
+    add_to_dict,
+    store_dict
+)
 from collections import Counter
+
 
 class TestCreateDict(unittest.TestCase):
     """
@@ -17,16 +23,16 @@ class TestCreateDict(unittest.TestCase):
         # Create a temporary CSV file for testing
         self.test_csv_path = 'test_words.csv'
         with open(self.test_csv_path, 'w') as f:
-            f.write('Word,Count,Type,Definition\n') # header for csv file
+            f.write('Word,Count,Type,Definition\n')  # header for csv file
             f.write('Apple,5,noun,a fruit\n')
-            f.write('apple,5,noun,a fruit\n')   # Duplicate word should be added
+            f.write('apple,5,noun,a fruit\n')   # Duplicate word
             f.write('Banana,6,noun,a yellow fruit\n')
             f.write('cat,3,noun,a feline animal\n')
-            f.write("don't,5,verb,contraction of do not\n")  # This should be skipped
-            f.write('a,1,noun,a letter\n')  #word too short should be skipped
-            f.write('#NAME?,#NAME?,"""pl. ""","""of Baptistry"""\n')  #weird part of dataset should be ignored
-            f.write('123,3,noun,a number\n')  #word with number should be skipped
-            
+            f.write("don't,5,verb,contraction of do not\n")  # Should skip
+            f.write('a,1,noun,a letter\n')  # word too short should be skipped
+            f.write('#NAME?,#NAME?,"""pl. ""","""of Baptistry"""\n')  # ignored
+            f.write('123,3,noun,a number\n')  # word with number skipped
+
     def tearDown(self):
         """
         Clean up the test environment after each test method.
@@ -40,7 +46,7 @@ class TestCreateDict(unittest.TestCase):
     def test_create_dict(self):
         """
         Test the create_dict function.
-        
+
         Verifies that:
         1. The dictionary is created with the correct structure.
         2. Words are properly added to the dictionary.
@@ -58,7 +64,7 @@ class TestCreateDict(unittest.TestCase):
     def test_initialise_dict(self):
         """
         Test the initialise_dict function.
-        
+
         Verifies that:
         1. The dictionary is initialized with 26 first-level keys (a-z).
         2. Each first-level key contains 26 second-level keys (a-z).
@@ -74,10 +80,11 @@ class TestCreateDict(unittest.TestCase):
     def test_add_to_dict(self):
         """
         Test the add_to_dict function.
-        
+
         Verifies that:
         1. A word is correctly added to the dictionary.
-        2. The word entry contains the correct word, definition, count, and letter counter.
+        2. The word entry contains the correct word, definition, count, and
+            letter counter.
         """
         dictionary = initialise_dict()
         add_to_dict(dictionary, 'test', 'a trial')
@@ -91,17 +98,29 @@ class TestCreateDict(unittest.TestCase):
     def test_store_dict(self):
         """
         Test the store_dict function.
-        
+
         Verifies that:
         1. The dictionary is correctly stored in a JSON file.
-        2. The stored dictionary can be loaded and matches the original dictionary.
+        2. The stored dictionary can be loaded and matches the original.
         """
-        dictionary = {'a': {'b': [{'word': 'ab', 'definition': 'test', 'count': 2, 'letter_counter': Counter('ab')}]}}
+        dictionary = {
+            'a': {
+                'b': [
+                    {
+                        'word': 'ab',
+                        'definition': 'test',
+                        'count': 2,
+                        'letter_counter': Counter('ab')
+                    }
+                ]
+            }
+        }
         store_dict(dictionary, 'test_dictionary.txt')
         self.assertTrue(os.path.exists('test_dictionary.txt'))
         with open('test_dictionary.txt', 'r') as f:
             stored_dict = json.load(f)
         self.assertEqual(stored_dict, dictionary)
+
 
 if __name__ == '__main__':
     unittest.main()

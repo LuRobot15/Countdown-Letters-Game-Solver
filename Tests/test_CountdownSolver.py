@@ -27,22 +27,49 @@ class TestCountdownSolver(unittest.TestCase):
         """
         self.sample_dict = initialise_dict()
         self.sample_dict['a']['p'].append(
-                    {"word": "apple", "definition": "A fruit", "count": 5, "letter_counter": {'a': 1, 'p': 2, 'l': 1, 'e': 1}},
+                    {
+                        "word": "apple",
+                        "definition": "A fruit",
+                        "count": 5,
+                        "letter_counter": {
+                            'a': 1,
+                            'p': 2,
+                            'l': 1,
+                            'e': 1
+                        }
+                    },
         )
         self.sample_dict['a']['t'].append(
-                    {"word": "at", "definition": "In, on, or near", "count": 2, "letter_counter": {'a': 1, 't': 1}},
+                    {
+                        "word": "at",
+                        "definition": "In, on, or near",
+                        "count": 2,
+                        "letter_counter": {
+                            'a': 1,
+                            't': 1
+                        }
+                    },
         )
         self.sample_dict['t']['e'].append(
-                    {"word": "test", "definition": "An examination", "count": 4, "letter_counter": {'t': 2, 'e': 1, 's': 1}},
+                    {
+                        "word": "test",
+                        "definition": "An examination",
+                        "count": 4,
+                        "letter_counter": {
+                            't': 2,
+                            'e': 1,
+                            's': 1
+                        }
+                    },
         )
 
     def tearDown(self):
         """
         Clean up the sample dictionary after each test.
 
-        This method is called after each test method. It ensures that the sample
-        dictionary is reset to its initial state after each test, maintaining
-        consistency for subsequent tests.
+        This method is called after each test method. It ensures that the
+        sample dictionary is reset to its initial state after each test,
+        maintaining consistency for subsequent tests.
         """
         self.sample_dict = None
 
@@ -50,17 +77,17 @@ class TestCountdownSolver(unittest.TestCase):
         """
         Test the solve_countdown function with valid words.
 
-        This test case provides a set of letters that should match multiple words
-        in the sample dictionary. It verifies that the solve_countdown function
-        correctly identifies all valid words and returns them with their
-        definitions and lengths.
+        This test case provides a set of letters that should match multiple
+        words in the sample dictionary. It verifies that the solve_countdown
+        function correctly identifies all valid words and returns them with
+        their definitions and lengths.
 
-        The test uses the letters "appletst", which should match "apple", "test",
-        and "at" from the sample dictionary.
+        The test uses the letters "appletst", which should match "apple",
+        "test", and "at" from the sample dictionary.
 
         Asserts:
-            The result matches the expected list of word dictionaries, containing
-            all valid words sorted by length in descending order.
+            The result matches the expected list of word dictionaries,
+            containing all valid words sorted by length in descending order.
         """
         letters = "appletst"
         result = solve_countdown(letters, self.sample_dict)
@@ -75,9 +102,9 @@ class TestCountdownSolver(unittest.TestCase):
         """
         Test the solve_countdown function with no valid words.
 
-        This test case provides a set of letters that should not match any words
-        in the sample dictionary. It verifies that the solve_countdown function
-        correctly returns an empty list when no valid words are found.
+        This test case provides a set of letters that should not match any
+        words in the sample dictionary. It verifies that the solve_countdown
+        function correctly returns an empty list when no valid words are found.
 
         The test uses the letters "xyz", which do not match any words in the
         sample dictionary.
@@ -93,9 +120,10 @@ class TestCountdownSolver(unittest.TestCase):
         """
         Test the solve_countdown function with partial word matches.
 
-        This test case provides a set of letters that should match only some words
-        in the sample dictionary. It verifies that the solve_countdown function
-        correctly identifies partial matches and returns only the valid words.
+        This test case provides a set of letters that should match only some
+        words in the sample dictionary. It verifies that the solve_countdown
+        function correctly identifies partial matches and returns only
+        the valid words.
 
         The test uses the letters "appl", which should only match "at" from the
         sample dictionary, as "apple" requires an additional 'e'.
@@ -116,13 +144,14 @@ class TestCountdownSolver(unittest.TestCase):
         """
         Test the output_words function.
 
-        This test case verifies that the output_words function correctly formats
-        and prints the list of words to the console. It uses a mock stdout to
-        capture the printed output and compare it with the expected string.
+        This test case verifies that the output_words function correctly,
+        formats and prints the list of words to the console.
+        It uses a mock stdout to capture the printed output
+        and compare it with the expected string.
 
         The test provides a sample list of word dictionaries and checks if the
-        output is formatted correctly, with words sorted by length in descending
-        order.
+        output is formatted correctly, with words sorted by length
+        in descending order.
 
         Args:
             mock_stdout (StringIO): A mock object to capture stdout.
@@ -136,7 +165,10 @@ class TestCountdownSolver(unittest.TestCase):
             {"word": "at", "definition": "In, on, or near", "length": 2}
         ]
         output_words(words)
-        expected_output = "5 - apple - A fruit\n4 - test - An examination\n2 - at - In, on, or near\n"
+        expected_output = \
+            "5 - apple - A fruit\n" + \
+            "4 - test - An examination\n" + \
+            "2 - at - In, on, or near\n"
         self.assertEqual(mock_stdout.getvalue(), expected_output)
 
 
@@ -161,7 +193,12 @@ class TestCheckAnswer(unittest.TestCase):
                         "word": "apple",
                         "definition": "A red fruit",
                         "count": 5,
-                        "letter_counter": {'a': 1, 'p': 2, 'l': 1, 'e': 1}
+                        "letter_counter": {
+                            'a': 1,
+                            'p': 2,
+                            'l': 1,
+                            'e': 1
+                        }
                     },
         )
         self.sample_dict['a']['p'].append(
@@ -169,7 +206,12 @@ class TestCheckAnswer(unittest.TestCase):
                         "word": "apple",
                         "definition": "A green fruit",
                         "count": 5,
-                        "letter_counter": {'a': 1, 'p': 2, 'l': 1, 'e': 1}
+                        "letter_counter": {
+                            'a': 1,
+                            'p': 2,
+                            'l': 1,
+                            'e': 1
+                        }
                     },
         )
         self.sample_dict['a']['p'].append(
@@ -177,7 +219,13 @@ class TestCheckAnswer(unittest.TestCase):
                         "word": "apples",
                         "definition": "Multiple of that apple fruit",
                         "count": 5,
-                        "letter_counter": {'a': 1, 'p': 2, 'l': 1, 'e': 1, 's': 1}
+                        "letter_counter": {
+                            'a': 1,
+                            'p': 2,
+                            'l': 1,
+                            'e': 1,
+                            's': 1
+                        }
                     },
         )
         self.sample_dict['a']['t'].append(
