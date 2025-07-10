@@ -131,26 +131,7 @@ def command_play_game(search_dictionary: dict) -> None:
     Args:
         search_dictionary (dict): The search dictionary storing words
     """
-    letter_draw_choice = "0"
-    letters = ""
-    while (
-        (
-            letter_draw_choice != "1" and letter_draw_choice != "2"
-        ) or
-        letters == "-1"
-    ):
-        print("Would you like to manually type your letter pool, or draw it?")
-        print("1. Manually type letters")
-        print("2. Draw letters (Real Countdown)")
-        print("-1. Return")
-        letter_draw_choice = input("Enter your choice: ")
-
-        if letter_draw_choice == "1":
-            letters = manually_enter_letters()
-        elif letter_draw_choice == "2":
-            letters = draw_letters()
-        elif letter_draw_choice == "-1":
-            return
+    letters = play_game_letter_generation()
 
     if letters is None:
         return
@@ -172,6 +153,40 @@ def command_play_game(search_dictionary: dict) -> None:
 
     valid_words = solve_countdown(letters, search_dictionary)
     output_words(valid_words)
+
+
+def play_game_letter_generation() -> str | None:
+    """
+    When playing the game, offers users 2 ways of generating letters.
+    Then calls the functions for these methods based on user input
+
+    Returns:
+        str | None: The letters generated or None to return
+    """
+    letter_draw_choice = "0"
+    letters = ""
+    while (
+        (
+            letter_draw_choice != "1" and letter_draw_choice != "2"
+        ) or
+        letters == "-1"
+    ):
+        print(
+            "Would you like to manually type your letter pool, or draw it?\n" +
+            "1. Manually type letters\n" +
+            "2. Draw letters (Real Countdown)\n" +
+            "-1. Return"
+        )
+        letter_draw_choice = input("Enter your choice: ")
+
+        if letter_draw_choice == "1":
+            letters = manually_enter_letters()
+        elif letter_draw_choice == "2":
+            letters = draw_letters()
+        elif letter_draw_choice == "-1":
+            return
+
+    return letters
 
 
 def output_definitions(definitions: List[str]) -> None:

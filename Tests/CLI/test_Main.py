@@ -1,3 +1,4 @@
+from collections import Counter
 import unittest
 from unittest.mock import patch, MagicMock
 from io import StringIO
@@ -351,6 +352,37 @@ class TestMain(unittest.TestCase):
         self.assertIn(
             "Error: Invalid Input, must be 9 letters", fake_out.getvalue()
         )
+
+    @patch('builtins.input', side_effect=[
+        'v', 'a', 'c', 'v', 'd', 'c', 'v', 'c', 'c', 'c', 'c'])
+    def test_valid_draw_lwtters(self, mock_input):
+        """
+        Tests the draw letters function
+
+        Simulates the use of the draw letters function.
+        In the end, only 9 letters should appear with only
+        3 being vowels
+
+        Args:
+            mock_input (MagicMock): The Mocked input
+        """
+        with patch('sys.stdout', new=StringIO()):
+            returned_letters = draw_letters()
+
+        self.assertIsNotNone(returned_letters)
+        self.assertEqual(len(returned_letters), 9)
+        self.assertTrue(returned_letters.isalpha())
+        self.assertTrue(returned_letters.islower())
+
+        vowels = 'aeiou'
+        letter_counter = Counter(returned_letters)
+        total_vowels = 0
+        for char in vowels:
+            if char in letter_counter:
+                total_vowels += letter_counter[char]
+
+        self.assertEqual(total_vowels, 3)
+
 
 
 if __name__ == '__main__':
