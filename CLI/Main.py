@@ -107,16 +107,10 @@ def command_solve_countdown(search_dictionary: dict) -> None:
     Args:
         search_dictionary (dict): The dictionary to use to find words.
     """
-    letters = input("Enter the letters to solve the countdown problem: ")
+    letters = manually_enter_letters()
 
-    if len(letters) != 9:
-        print("Error: Invalid number of letters")
+    if letters is None:
         return
-    else:
-        for letter in letters:
-            if not letter.isalpha():
-                print("Error: Invalid letters")
-                return
 
     valid_words = solve_countdown(letters.lower(), search_dictionary)
 
@@ -151,6 +145,9 @@ def command_play_game(search_dictionary: dict) -> None:
         elif letter_draw_choice == "-1":
             return
 
+    if letters is None:
+        return
+
     guess = ""
     while guess != "-1":
         print(f"letters: {letters}")
@@ -182,7 +179,7 @@ def output_definitions(definitions: List[str]) -> None:
         print(f"{i}. {definitions[i]}")
 
 
-def manually_enter_letters() -> str:
+def manually_enter_letters() -> Union[str, None]:
     """
     Allows a user to manually enter letters,
     processing them to ensure they are correct
@@ -191,20 +188,18 @@ def manually_enter_letters() -> str:
         str: valid letter pool
     """
     letters = ""
-    valid_letters_entered = False
 
-    while not valid_letters_entered:
-        letters = input("Enter letters: ")
-        if len(letters) != 9 or not letters.isalpha():
-            print("there must be 9 letters")
-        else:
-            letters = letters.lower()
-            valid_letters_entered = True
+    letters = input("Enter letters: ")
+    if len(letters) != 9 or not letters.isalpha():
+        print("Error: Invalid Input, must be 9 letters")
+        return None
+    else:
+        letters = letters.lower()
 
     return letters
 
 
-def draw_letters() -> str:
+def draw_letters() -> Union[str, None]:
     """
     Creates a string of 9 letters from which to play the game
     Either by manual choice or by drawing letters randomly
@@ -230,6 +225,8 @@ def draw_letters() -> str:
             new_letter = select_letter(CONSONANTS)
         elif letter_choice == "v":
             new_letter = select_letter(VOWLS)
+        elif letter_choice == "-1":
+            return None
         else:
             new_letter = ""
 

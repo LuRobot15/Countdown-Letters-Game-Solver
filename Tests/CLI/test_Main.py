@@ -310,7 +310,9 @@ class TestMain(unittest.TestCase):
         with patch('sys.stdout', new=StringIO()) as fake_out:
             command_solve_countdown({})
 
-        self.assertIn("Error: Invalid number of letters", fake_out.getvalue())
+        self.assertIn(
+            "Error: Invalid Input, must be 9 letters", fake_out.getvalue()
+        )
 
 
 if __name__ == '__main__':
