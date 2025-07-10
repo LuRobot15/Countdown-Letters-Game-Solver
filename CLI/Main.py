@@ -8,7 +8,7 @@ from typing import Union, List
 import random
 
 VOWLS = "aeiou"
-CONSONANTS = "bcdfghjklmnpqrstvwxyz" 
+CONSONANTS = "bcdfghjklmnpqrstvwxyz"
 
 
 def main(args: list):
@@ -37,13 +37,14 @@ def main(args: list):
 
         choice = input("Enter your choice: ")
 
-        search_dictionary = {}
         if choice == "1":
             search_dictionary = command_create_dict()
         elif choice == "2":
             search_dictionary = command_load_dict()
         elif choice == "3":
             command_solve_countdown(search_dictionary)
+        elif choice == "4":
+            command_play_game(search_dictionary)
         elif choice == "-1":
             break
         else:

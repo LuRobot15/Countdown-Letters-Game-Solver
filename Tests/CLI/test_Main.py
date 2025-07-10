@@ -1,11 +1,14 @@
 import unittest
-from unittest.mock import patch
+from unittest.mock import patch, MagicMock
 from io import StringIO
 from CLI.Main import (
     main,
     command_create_dict,
     command_load_dict,
-    command_solve_countdown
+    command_solve_countdown,
+    command_play_game,
+    manually_enter_letters,
+    draw_letters
 )
 
 
@@ -96,7 +99,41 @@ class TestMain(unittest.TestCase):
         self.assertIn("What would you like to do?", fake_out.getvalue())
         mock_command_solve_countdown.assert_called_once_with(mock_dict)
 
-    @patch('builtins.input', side_effect=['4', '-1'])
+    @patch('builtins.input', side_effect=['2', '4', '-1'])
+    @patch('CLI.Main.command_play_game')
+    @patch('CLI.Main.command_load_dict')
+    def test_main_play_game(
+        self,
+        mock_command_load_dict: MagicMock,
+        mock_command_play_game: MagicMock,
+        mock_input: MagicMock
+    ):
+        """
+        Test the main function for when the user chooses to play
+        the countdown game.
+
+        This test simulates user input to select the option to play the
+        countdown game and then exit the program. It verifies that the
+        appropriate functions are called and the expected output is produced.
+
+        Args:
+            mock_command_load_dict (MagicMock): The mocked load dict function
+            mock_command_play_game (MagicMock): The mocked play game function
+            mock_input (MagicMock): The mocked input selecting the options
+
+        Asserts:
+            The output contains the prompt "What would you like to do?".
+            The command_play_game function is called once.
+        """
+        mock_dict = {'test': 'dictionary'}
+        mock_command_load_dict.return_value = mock_dict
+        mock_command_play_game.return_value = None
+        with patch('sys.stdout', new=StringIO()) as fake_out:
+            main(["main.py"])
+        self.assertIn("What would you like to do?", fake_out.getvalue())
+        mock_command_play_game.assert_called_once_with(mock_dict)
+
+    @patch('builtins.input', side_effect=['5', '-1'])
     def test_main_invalid_choice(self, mock_input):
         """
         Test the main function when the user chooses an invalid option.
