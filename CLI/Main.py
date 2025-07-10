@@ -41,12 +41,14 @@ def main(args: list):
             search_dictionary = command_create_dict()
         elif choice == "2":
             search_dictionary = command_load_dict()
-        elif choice == "3":
+        elif choice == "3" and search_dictionary is not None:
             command_solve_countdown(search_dictionary)
-        elif choice == "4":
+        elif choice == "4" and search_dictionary is not None:
             command_play_game(search_dictionary)
         elif choice == "-1":
             break
+        elif choice == "3" or choice == "4":
+            print("You must load a dictionary first")
         else:
             print("Invalid choice")
 
@@ -131,7 +133,12 @@ def command_play_game(search_dictionary: dict) -> None:
     """
     letter_draw_choice = "0"
     letters = ""
-    while letter_draw_choice != "1" and letter_draw_choice != "2":
+    while (
+        (
+            letter_draw_choice != "1" and letter_draw_choice != "2"
+        ) or
+        letters == "-1"
+    ):
         print("Would you like to manually type your letter pool, or draw it?")
         print("1. Manually type letters")
         print("2. Draw letters (Real Countdown)")
@@ -189,14 +196,15 @@ def manually_enter_letters() -> Union[str, None]:
     """
     letters = ""
 
-    letters = input("Enter letters: ")
-    if len(letters) != 9 or not letters.isalpha():
-        print("Error: Invalid Input, must be 9 letters")
-        return None
-    else:
-        letters = letters.lower()
-
-    return letters
+    while True:
+        letters = input("Enter letters (or -1 to exit): ")
+        if letters == "-1":
+            return None
+        if len(letters) != 9 or not letters.isalpha():
+            print("Error: Invalid Input, must be 9 letters")
+        else:
+            letters = letters.lower()
+            return letters
 
 
 def draw_letters() -> Union[str, None]:

@@ -152,6 +152,44 @@ class TestMain(unittest.TestCase):
             main(["main.py"])
         self.assertIn("Invalid choice", fake_out.getvalue())
 
+    @patch('builtins.input', side_effect=['3', '-1'])
+    def test_solve_without_dict(self, mock_input):
+        """
+        Test the main function when the user chooses an invalid option.
+
+        This test simulates user input to select to solve countdown
+        without first loading a dictionary and then exits the program.
+        It verifies that the appropriate message is displayed.
+
+        Args:
+            mock_input (MagicMock): Mocked input function.
+
+        Asserts:
+            The output contains the prompt "You must load a dictionary first".
+        """
+        with patch('sys.stdout', new=StringIO()) as fake_out:
+            main(["main.py"])
+        self.assertIn("You must load a dictionary first", fake_out.getvalue())
+
+    @patch('builtins.input', side_effect=['4', '-1'])
+    def test_play_game_without_dict(self, mock_input):
+        """
+        Test the main function when the user chooses an invalid option.
+
+        This test simulates user input to selects to play the game
+        without first loading a dictionary and then exits the program.
+        It verifies that the appropriate message is displayed.
+
+        Args:
+            mock_input (MagicMock): Mocked input function.
+
+        Asserts:
+            The output contains the prompt "You must load a dictionary first".
+        """
+        with patch('sys.stdout', new=StringIO()) as fake_out:
+            main(["main.py"])
+        self.assertIn("You must load a dictionary first", fake_out.getvalue())
+
     @patch('builtins.input', side_effect=['/path/to/csv', '/path/to/json'])
     @patch('CLI.Main.create_dict')
     def test_command_create_dict_success(self, mock_create_dict, mock_input):
@@ -292,7 +330,7 @@ class TestMain(unittest.TestCase):
             "Countdown problem solved successfully", fake_out.getvalue()
         )
 
-    @patch('builtins.input', return_value='INVALID')
+    @patch('builtins.input', side_effect=['INVALID', "-1"])
     def test_command_solve_countdown_invalid_input(self, mock_input):
         """
         Test the command_solve_countdown function when invalid input is
