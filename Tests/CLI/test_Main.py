@@ -12,6 +12,11 @@ from CLI.Main import (
     manually_enter_letters,
     draw_letters
 )
+from LettersGame.CountdownSolver import (
+    check_answer,
+    solve_countdown,
+    output_words
+)
 
 
 class TestMain(unittest.TestCase):
@@ -631,6 +636,81 @@ class TestMain(unittest.TestCase):
         mock_draw_letters.assert_not_called()
         mock_manually_enter_letters.assert_not_called()
         self.assertIsNone(returned_letters)
+
+    @patch('CLI.Main.play_game_letter_generation', return_value=None)
+    def test_command_play_game_no_letters(
+        self,
+        mock_play_game_letter_generation: MagicMock
+    ):
+        """
+        Tests the play game function when no letters were generated
+
+        Args:
+            mock_play_game_letter_generation (MagicMock): The mock of the
+                letter generation function simulating the user exitting
+                without generating letters
+
+        Asserts:
+            The function returns without proceeding further
+        """
+        with patch('sys.stdout', new=StringIO()) as fake_out:
+            command_play_game({})
+
+        self.assertNotIn("input a word (or -1 to see answers): ", fake_out)
+
+    @patch('CLI.Main.play_game_letter_generation', return_value="aaaaaaaaa")
+    @patch('builtins.input', side_effect=["aaaa", '-1'])
+    @patch('CLI.Main.check_answer')
+    @patch('CLI.Main.solve_countdown')
+    @patch('CLI.Main.output_words')
+    def test_command_play_game_all_valid(
+        self,
+        mock_output_words: MagicMock,
+        mock_solve_countdown: MagicMock,
+        mock_check_answer: MagicMock,
+        mock_input: MagicMock,
+        mock_play_game_letter_generation: MagicMock
+    ):
+        """
+        Tests the play game function when valid inputs are given
+
+        Args:
+            mock_output_words (MagicMock): The mock of the output words
+                function to ensure the correct answers are given
+            mock_solve_countdown (MagicMock): The mock of the solve countdown
+                function to ensure the correct answers are retrieved
+            mock_check_answer (MagicMock): The mock of the check answer
+                function for if a valid word is sent and registered as correct
+                with 2 definitions
+            mock_input (MagicMock): The mock of the input for the user
+                inputting a valid word then exitting
+            mock_play_game_letter_generation (MagicMock): The mock of the
+                letter generation function
+
+        Asserts:
+            The definitions are outputted correctly and the function returns
+            when used correctly
+        """
+        mock_check_answer.return_value = {
+            "correct": True,
+            "definitions": [
+                "3 as",
+                "what is this"
+            ]
+        }
+        with patch('sys.stdout', new=StringIO()) as fake_out:
+            command_play_game({})
+
+        mock_play_game_letter_generation.assert_called_once()
+        mock_check_answer.assert_called_once()
+        self.assertNotIn("incorrect", fake_out.getvalue())
+        self.assertIn("correct", fake_out.getvalue())
+        self.assertIn("Word Definitions:", fake_out.getvalue())
+        self.assertIn("3 as", fake_out.getvalue())
+        self.assertIn("what is this", fake_out.getvalue())
+
+        mock_solve_countdown.assert_called_once()
+        mock_output_words.assert_called_once()
 
 
 if __name__ == '__main__':

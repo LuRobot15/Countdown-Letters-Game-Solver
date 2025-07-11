@@ -140,7 +140,9 @@ def command_play_game(search_dictionary: dict) -> None:
     while guess != "-1":
         print(f"letters: {letters}")
         guess = input("input a word (or -1 to see answers): ")
-        if len(guess) > 9 or not guess.isalpha():
+        if guess == "-1":
+            break
+        elif len(guess) > 9 or not guess.isalpha():
             print("Invalid Guess")
             guess = ""
         else:
@@ -149,7 +151,8 @@ def command_play_game(search_dictionary: dict) -> None:
                 print("incorrect")
             else:
                 print("correct")
-        guess = ""
+                output_definitions(response["definitions"])
+            guess = ""
 
     valid_words = solve_countdown(letters, search_dictionary)
     output_words(valid_words)
