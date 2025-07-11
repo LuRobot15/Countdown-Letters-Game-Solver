@@ -8,6 +8,7 @@ from CLI.Main import (
     command_load_dict,
     command_solve_countdown,
     command_play_game,
+    play_game_letter_generation,
     manually_enter_letters,
     draw_letters
 )
@@ -520,6 +521,115 @@ class TestMain(unittest.TestCase):
         self.assertIn(
             "Error: Invalid Input, must be 9 letters", fake_out.getvalue()
         )
+        self.assertIsNone(returned_letters)
+
+    @patch('builtins.input', return_value="1")
+    @patch('CLI.Main.manually_enter_letters', return_value='aaaaaaaaa')
+    def test_play_game_letter_generation_manually_enter(
+        self,
+        mock_manually_enter_letters: MagicMock,
+        mock_input: MagicMock
+    ):
+        """
+        Tests the letter generation selection when manually enter letters is
+        selected
+
+        Args:
+            mock_manually_enter_letters (MagicMock): the mock of the manually
+                enter letters function
+            mock_input (MagicMock): The mock of the input
+
+        Asserts:
+            The correct function is called and the letters are returned
+        """
+        with patch('sys.stdout', new=StringIO()):
+            returned_letters = play_game_letter_generation()
+
+        mock_manually_enter_letters.assert_called_once()
+        self.assertEqual(returned_letters, 'aaaaaaaaa')
+
+    @patch('builtins.input', return_value="2")
+    @patch('CLI.Main.draw_letters', return_value='aaaaaaaaa')
+    def test_play_game_letter_generation_draw_letters(
+        self,
+        mock_draw_letters: MagicMock,
+        mock_input: MagicMock
+    ):
+        """
+        Tests the letter generation selection when manually enter letters is
+        selected
+
+        Args:
+            mock_manually_enter_letters (MagicMock): the mock of the
+                draw_letters function
+            mock_input (MagicMock): The mock of the input
+
+        Asserts:
+            The correct function is called and the letters are returned
+        """
+        with patch('sys.stdout', new=StringIO()):
+            returned_letters = play_game_letter_generation()
+
+        mock_draw_letters.assert_called_once()
+        self.assertEqual(returned_letters, 'aaaaaaaaa')
+
+    @patch('builtins.input', return_value="-1")
+    @patch('CLI.Main.manually_enter_letters', return_value='aaaaaaaaa')
+    @patch('CLI.Main.draw_letters', return_value='bbbbbbbbb')
+    def test_play_game_letter_generation_exit(
+        self,
+        mock_draw_letters: MagicMock,
+        mock_manually_enter_letters: MagicMock,
+        mock_input: MagicMock
+    ):
+        """
+        Tests the letter generation selection when the user decides to exit
+
+        Args:
+            mock_draw_letters (MagicMock): the mock of the
+                draw_letters function
+            mock_manually_enter_letters (MagicMock): the mock of the manually
+                enter letters function
+            mock_input (MagicMock): The mock of the input
+
+        Asserts:
+            No functions are called and None is returned
+        """
+        with patch('sys.stdout', new=StringIO()):
+            returned_letters = play_game_letter_generation()
+
+        mock_draw_letters.assert_not_called()
+        mock_manually_enter_letters.assert_not_called()
+        self.assertIsNone(returned_letters)
+
+    @patch('builtins.input', side_effect=["3", "-1"])
+    @patch('CLI.Main.manually_enter_letters', return_value='aaaaaaaaa')
+    @patch('CLI.Main.draw_letters', return_value='bbbbbbbbb')
+    def test_play_game_letter_generation_invalid_choice(
+        self,
+        mock_draw_letters: MagicMock,
+        mock_manually_enter_letters: MagicMock,
+        mock_input: MagicMock
+    ):
+        """
+        Tests the letter generation selection when the user gives an invalid
+        choice
+
+        Args:
+            mock_draw_letters (MagicMock): the mock of the
+                draw_letters function
+            mock_manually_enter_letters (MagicMock): the mock of the manually
+                enter letters function
+            mock_input (MagicMock): The mock of the input
+
+        Asserts:
+            No functions are called and None is returned
+        """
+        with patch('sys.stdout', new=StringIO()):
+            returned_letters = play_game_letter_generation()
+
+        mock_draw_letters.assert_not_called()
+        mock_manually_enter_letters.assert_not_called()
         self.assertIsNone(returned_letters)
 
 

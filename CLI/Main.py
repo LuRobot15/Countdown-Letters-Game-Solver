@@ -184,7 +184,7 @@ def play_game_letter_generation() -> str | None:
         elif letter_draw_choice == "2":
             letters = draw_letters()
         elif letter_draw_choice == "-1":
-            return
+            return None
 
     return letters
 
