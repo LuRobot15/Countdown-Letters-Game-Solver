@@ -158,7 +158,7 @@ def command_play_game(search_dictionary: dict) -> None:
     output_words(valid_words)
 
 
-def play_game_letter_generation() -> str | None:
+def play_game_letter_generation() -> Union[str, None]:
     """
     When playing the game, offers users 2 ways of generating letters.
     Then calls the functions for these methods based on user input
