@@ -354,8 +354,10 @@ class TestMain(unittest.TestCase):
         )
 
     @patch('builtins.input', side_effect=[
-        'v', 'a', 'c', 'v', 'd', 'c', 'v', 'c', 'c', 'c', 'c'])
-    def test_valid_draw_lwtters(self, mock_input):
+        'v', 'a', 'c', 'v', 'd', 'c', 'v', 'c', 'c', 'c', 'c'
+        ]
+    )
+    def test_valid_draw_letters(self, mock_input):
         """
         Tests the draw letters function
 
@@ -365,6 +367,10 @@ class TestMain(unittest.TestCase):
 
         Args:
             mock_input (MagicMock): The Mocked input
+
+        Asserts:
+            a 9 letter string is returned containing letters only with 3
+            vowels and 6 consonents
         """
         with patch('sys.stdout', new=StringIO()):
             returned_letters = draw_letters()
@@ -383,6 +389,138 @@ class TestMain(unittest.TestCase):
 
         self.assertEqual(total_vowels, 3)
 
+    @patch('builtins.input', side_effect=[
+        'v', 'a', 'c', 'v', 'd', 'c', 'v', 'c', 'c', 'c', '-1'
+        ]
+    )
+    def test_draw_letters_ecit(self, mock_input):
+        """
+        Tests the draw letters function where the user exits before 9
+        letters have been drawn
+
+        Simulates the use of the draw letters function.
+        In the end, None should be returned as the user has exitted before
+        9 letters have been drawn
+
+        Args:
+            mock_input (MagicMock): The Mocked input
+
+        Asserts:
+            None is returned
+        """
+        with patch('sys.stdout', new=StringIO()):
+            returned_letters = draw_letters()
+
+        self.assertIsNone(returned_letters)
+
+    @patch('builtins.input', return_value='aaaAaaAaa')
+    def test_valid_manually_enter_letters(self, mock_input):
+        """
+        Tests the function to manually enter letters when a valid input is
+        given
+
+        Args:
+            mock_input (MagicMock): The Mocked input
+
+        Asserts:
+            The 9 letters inputted are returned exactly
+        """
+        with patch('sys.stdout', new=StringIO()):
+            returned_letters = manually_enter_letters()
+
+        self.assertEqual(returned_letters, 'aaaaaaaaa')
+
+    @patch('builtins.input', return_value='-1')
+    def test_manually_enter_letters_abort(self, mock_input):
+        """
+        Tests the function to manually enter letters when the user exits
+
+        Args:
+            mock_input (MagicMock): The Mocked input
+
+        Asserts:
+            None is returned
+        """
+        with patch('sys.stdout', new=StringIO()):
+            returned_letters = manually_enter_letters()
+
+        self.assertIsNone(returned_letters)
+
+    @patch('builtins.input', side_effect=['aaaaaaaa', '-1'])
+    def test_manually_enter_letters_too_short(self, mock_input):
+        """
+        Tests the user is not allowed to enter a string that is too short
+
+        Args:
+            mock_input (MagicMock): The mocked input
+
+        Asserts:
+            The correct error message is shown and None is returned
+        """
+        with patch('sys.stdout', new=StringIO()) as fake_out:
+            returned_letters = manually_enter_letters()
+
+        self.assertIn(
+            "Error: Invalid Input, must be 9 letters", fake_out.getvalue()
+        )
+        self.assertIsNone(returned_letters)
+
+    @patch('builtins.input', side_effect=['aaaaaaaaaa', '-1'])
+    def test_manually_enter_letters_too_long(self, mock_input):
+        """
+        Tests the user is not allowed to enter a string that is too long
+
+        Args:
+            mock_input (MagicMock): The mocked input
+
+        Asserts:
+            The correct error message is shown and None is returned
+        """
+        with patch('sys.stdout', new=StringIO()) as fake_out:
+            returned_letters = manually_enter_letters()
+
+        self.assertIn(
+            "Error: Invalid Input, must be 9 letters", fake_out.getvalue()
+        )
+        self.assertIsNone(returned_letters)
+
+    @patch('builtins.input', side_effect=['aaaaa!aaa', '-1'])
+    def test_manually_enter_letters_none_letter(self, mock_input):
+        """
+        Tests the user is not allowed to enter a string that contains a symbol
+
+        Args:
+            mock_input (MagicMock): The mocked input
+
+        Asserts:
+            The correct error message is shown and None is returned
+        """
+        with patch('sys.stdout', new=StringIO()) as fake_out:
+            returned_letters = manually_enter_letters()
+
+        self.assertIn(
+            "Error: Invalid Input, must be 9 letters", fake_out.getvalue()
+        )
+        self.assertIsNone(returned_letters)
+
+    @patch('builtins.input', side_effect=['', '-1'])
+    def test_manually_enter_letters_empty(self, mock_input):
+        """
+        Tests the user is not allowed to not enter anything
+
+        Args:
+            mock_input (MagicMock): The mocked input
+
+        Asserts:
+            The correct error message is shown and None is returned
+        """
+        with patch('sys.stdout', new=StringIO()) as fake_out:
+            returned_letters = manually_enter_letters()
+
+        self.assertIn(
+            "Error: Invalid Input, must be 9 letters", fake_out.getvalue()
+        )
+        self.assertIsNone(returned_letters)
 
 
 if __name__ == '__main__':
